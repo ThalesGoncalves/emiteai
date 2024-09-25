@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: CadastroPessoas
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: thales
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: C:\Users\Thales\Desktop\PROJETO EMITEAI\Pessoas
+    container_name: backend
+    ports:
+      - "8080:8080"  # Mapeando a porta 80 do container para a porta 8080 da máquina host
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/CadastroPessoas
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: thales
+    depends_on:
+      - postgres
+
+  frontend:
+    build: C:\Users\Thales\Desktop\FrontCadastroPessoas\CadastroPessoas  # Caminho correto do frontend
+    container_name: frontend
+    ports:
+      - "80:80"  # Mapeando a porta 80 do container Nginx para a porta 3000 da máquina host
